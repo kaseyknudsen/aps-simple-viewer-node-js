@@ -96,3 +96,33 @@ service.uploadObject = async (objectName, filePath) => {
     return results[0].completed;
   }
 };
+
+//logic for converting designs for viewing, and for checking the status of the conversions
+//urn is a base 64 encoded ID
+service.translateObject = async (urn, rootFilename) => {
+    const job = {
+        input: { urn },
+        output: { formats: [{ type: 'svf', views: ['2d', '3d'] }] }
+    };
+    if (rootFilename) {
+        job.input.compressedUrn = true;
+        job.input.rootFilename = rootFilename;
+    }
+    const resp = await new APS.DerivativesApi().translate(job, {}, null, await service.getInternalToken());
+    return resp.body;
+};
+
+service.getManifest = async (urn) => {
+    try {
+        const resp = await new APS.DerivativesApi().getManifest(urn, {}, null, await service.getInternalToken());
+        return resp.body;
+    } catch (err) {
+        if (err.response.status === 404) {
+            return null;
+        } else {
+            throw err;
+        }
+    }
+};
+
+service.urnify = (id) => Buffer.from(id).toString('base64').replace(/=/g, '');
