@@ -10,6 +10,7 @@ const {
 
 let router = express.Router();
 
+//when client wants to get the list of all models available for viewing
 router.get("/api/models", async function (req, res, next) {
   try {
     const objects = await listObjects();
@@ -24,6 +25,7 @@ router.get("/api/models", async function (req, res, next) {
   }
 });
 
+//used to check the status of the conversion
 router.get("/api/models/:urn/status", async function (req, res, next) {
   try {
     const manifest = await getManifest(req.params.urn);
@@ -52,6 +54,7 @@ router.get("/api/models/:urn/status", async function (req, res, next) {
   }
 });
 
+//when the client wants to upload a new model and start it's translation
 router.post("/api/models", formidable(), async function (req, res, next) {
   const file = req.files["model-file"];
   if (!file) {
