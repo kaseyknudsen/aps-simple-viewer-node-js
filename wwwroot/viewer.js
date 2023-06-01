@@ -14,6 +14,7 @@ async function getAccessToken(callback) {
     }
 }
 
+//creates new instance of the viewer in specified DOM container
 export function initViewer(container) {
     return new Promise(function (resolve, reject) {
         Autodesk.Viewing.Initializer({ getAccessToken }, function () {
@@ -28,6 +29,7 @@ export function initViewer(container) {
     });
 }
 
+//loads a specific model into the viewer
 export function loadModel(viewer, urn) {
     return new Promise(function (resolve, reject) {
         function onDocumentLoadSuccess(doc) {
