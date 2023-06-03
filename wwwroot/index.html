@@ -29,8 +29,17 @@
       <button id="upload" title="Upload New Model">Upload</button>
       <input style="display: none" type="file" id="input" />
     </div>
-    <div id="preview"></div>
-    <div id="overlay"></div>
+    <div class="mainContainer">
+      <div class="parametersContainer">
+        <select>
+          <option>Select an Option</option>
+          <option>One</option>
+          <option>Two</option>
+        </select>
+      </div>
+      <div id="preview"></div>
+      <div id="overlay"></div>
+    </div>
     <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.js"></script>
     <script src="/main.js" type="module"></script>
   </body>
