@@ -3,6 +3,8 @@
 const button1 = document.getElementById("bkrndColorRed");
 const button2 = document.getElementById("bkrndColorGrey");
 const button3 = document.getElementById("reset");
+const button4 = document.getElementById("isolateBracket");
+
 async function getAccessToken(callback) {
   try {
     const resp = await fetch("/api/auth/token");
@@ -38,12 +40,22 @@ export function initViewer(container) {
         viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
       };
       button2.addEventListener("click", setBackgroundColorGrey);
-      //this butotn is not working
+      //this button is not working
       const resetWindow = () => {
         // viewer.fitToView();
-        location.reload()
+        location.reload();
       };
       button3.addEventListener("click", resetWindow);
+
+      const isolateBracket = () => {
+        viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
+          viewer.search("Bracket, Bottom", (ids) => {
+            viewer.isolate(ids);
+          });
+        });
+      };
+      isolateBracket();
+      // button4.addEventListener("click", isolateBracket);
     });
   });
 }
