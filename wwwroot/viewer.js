@@ -1,5 +1,8 @@
 /// import * as Autodesk from "@types/forge-viewer";
 
+const button1 = document.getElementById("bkrndColorRed");
+const button2 = document.getElementById("bkrndColorGrey");
+const button3 = document.getElementById("reset");
 async function getAccessToken(callback) {
   try {
     const resp = await fetch("/api/auth/token");
@@ -26,40 +29,21 @@ export function initViewer(container) {
       viewer.start();
       viewer.setTheme("light-theme");
       resolve(viewer);
-      //this will isolate all concrete
-      // const isolateConcrete = () => {
-      //   viewer.addEventListener(
-      //     Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
-      //     function () {
-      //       viewer.search("concrete", function (ids) {
-      //         viewer.isolate(ids);
-      //       });
-      //     }
-      //   );
-      // };
-      //this will turn the background red
-      // const setBkrndColor = () => {
-      //   //pass in a hexadecimal color value
-      //   viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
-      //     viewer.setBackgroundColor(0xff0000);
-      //   });
-      // };
-      const button1 = new Autodesk.Viewing.UI.Button(
-        "set-background-color-button"
-      );
-      button1.addClass("set-background-color-button");
-      button1.setToolTip("Set Background Color");
-      button1.onClick = (e) => {
+      const setBackgroundColorRed = () => {
         viewer.setBackgroundColor(0xff0000);
       };
+      button1.addEventListener("click", setBackgroundColorRed);
 
-      const toolbar = new Autodesk.Viewing.UI.ToolBar("my-custom-toolbar");
-      toolbar.addControl(button1);
-      viewer.addEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, () => {
-        viewer.getToolbar().addControl(toolbar);
-      });
-      //setBkrndColor()
-      //isolateConcrete();
+      const setBackgroundColorGrey = () => {
+        viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
+      };
+      button2.addEventListener("click", setBackgroundColorGrey);
+      //this butotn is not working
+      const resetWindow = () => {
+        // viewer.fitToView();
+        location.reload()
+      };
+      button3.addEventListener("click", resetWindow);
     });
   });
 }
