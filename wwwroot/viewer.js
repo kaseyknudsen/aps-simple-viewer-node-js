@@ -48,14 +48,12 @@ export function initViewer(container) {
       button3.addEventListener("click", resetWindow);
 
       const isolateBracket = () => {
-        viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
-          viewer.search("Bracket, Bottom", (ids) => {
-            viewer.isolate(ids);
-          });
+        viewer.search("Bracket, Bottom", (ids) => {
+          viewer.isolate(ids);
         });
       };
-      isolateBracket();
-      // button4.addEventListener("click", isolateBracket);
+      // isolateBracket();
+      button4.addEventListener("click", isolateBracket);
     });
   });
 }
