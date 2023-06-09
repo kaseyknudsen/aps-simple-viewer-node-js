@@ -64,12 +64,20 @@ export function initViewer(container) {
           color: "Grey",
           colorCode: "0, 0, 0, 210, 210, 210",
         },
+        {
+          color: "Blue",
+          colorCode: "0000FF",
+        },
       ];
       const dropdown = document.querySelector("select[name='colors']");
       dropdown.innerHTML = colorsArray.map(
         (color) => `<option value={color.colorCode}>${color.color}</option>`
       );
-      dropdown.onchange = () => dropdown.value;
+      dropdown.onchange = () => {
+        resetWindow();
+
+        viewer.setBackgroundColor(dropdown.value);
+      };
     });
   });
 }
