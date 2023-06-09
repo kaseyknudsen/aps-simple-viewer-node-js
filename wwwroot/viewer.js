@@ -74,8 +74,6 @@ export function initViewer(container) {
         (color) => `<option value={color.colorCode}>${color.color}</option>`
       );
       dropdown.onchange = () => {
-        resetWindow();
-
         viewer.setBackgroundColor(dropdown.value);
       };
     });
