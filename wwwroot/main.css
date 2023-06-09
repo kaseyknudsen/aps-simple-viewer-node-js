@@ -71,3 +71,14 @@ body {
   position: absolute;
   width: 90%;
 }
+
+#colorMenu {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  margin-bottom: 10px;
+}
+

@@ -4,6 +4,7 @@ const button1 = document.getElementById("bkrndColorRed");
 const button2 = document.getElementById("bkrndColorGrey");
 const button3 = document.getElementById("reset");
 const button4 = document.getElementById("isolateBracket");
+const colorMenu = document.getElementById("colorMenu");
 
 async function getAccessToken(callback) {
   try {
@@ -54,6 +55,21 @@ export function initViewer(container) {
       };
       // isolateBracket();
       button4.addEventListener("click", isolateBracket);
+      const colorsArray = [
+        {
+          color: "Red",
+          colorCode: "0xff0000",
+        },
+        {
+          color: "Grey",
+          colorCode: "0, 0, 0, 210, 210, 210",
+        },
+      ];
+      const dropdown = document.querySelector("select[name='colors']");
+      dropdown.innerHTML = colorsArray.map(
+        (color) => `<option value={color.colorCode}>${color.color}</option>`
+      );
+      dropdown.onchange = () => dropdown.value;
     });
   });
 }
