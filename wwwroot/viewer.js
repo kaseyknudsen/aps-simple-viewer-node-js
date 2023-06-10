@@ -41,7 +41,6 @@ export function initViewer(container) {
         viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
       };
       button2.addEventListener("click", setBackgroundColorGrey);
-      //this button is not working
       const resetWindow = () => {
         // viewer.fitToView();
         location.reload();
@@ -55,23 +54,29 @@ export function initViewer(container) {
       };
       // isolateBracket();
       button4.addEventListener("click", isolateBracket);
+
       const colorsArray = [
         {
-          color: "Red",
+          color: "white",
+          colorCode: "#FFFFFF",
+        },
+        {
+          color: "red",
           colorCode: "0xff0000",
         },
         {
-          color: "Grey",
-          colorCode: "0, 0, 0, 210, 210, 210",
+          color: "grey",
+          colorCode: (0, 0, 0, 210, 210, 210),
         },
         {
-          color: "Blue",
-          colorCode: "0000FF",
+          color: "blue",
+          colorCode: "0x0000ff",
         },
       ];
       const dropdown = document.querySelector("select[name='colors']");
       dropdown.innerHTML = colorsArray.map(
-        (color) => `<option value={color.colorCode}>${color.color}</option>`
+        (backgroundColor, idx) =>
+          `<option value="${backgroundColor.colorCode}">${backgroundColor.color}</option>`
       );
       dropdown.onchange = () => {
         viewer.setBackgroundColor(dropdown.value);
