@@ -5,7 +5,29 @@ const button2 = document.getElementById("bkrndColorGrey");
 const button3 = document.getElementById("reset");
 const button4 = document.getElementById("isolateBracket");
 const colorMenu = document.getElementById("colorMenu");
+const parameters = document.querySelector(".parameters");
 
+
+const newButton = (textToAdd) => {
+  const button = document.createElement("button");
+  button.className = "item";
+  const text = document.createTextNode(textToAdd);
+  button.appendChild(text);
+  parameters.appendChild(button);
+  colorMenu.insertAdjacentElement("beforebegin", button)
+  return button;
+};
+
+newButton("I am a button");
+
+// const newContainer = () => {
+//   const container = document.createElement("div");
+//   container.className = "newContainer";
+//   document.body.appendChild(container);
+//   const button = newButton("I am a button");
+//   container.appendChild(button);
+// };
+// newContainer();
 async function getAccessToken(callback) {
   try {
     const resp = await fetch("/api/auth/token");
@@ -42,7 +64,6 @@ export function initViewer(container) {
       };
       button2.addEventListener("click", setBackgroundColorGrey);
       const resetWindow = () => {
-        // viewer.fitToView();
         location.reload();
       };
       button3.addEventListener("click", resetWindow);
