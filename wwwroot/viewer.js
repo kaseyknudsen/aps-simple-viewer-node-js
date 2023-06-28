@@ -6,7 +6,12 @@ const button3 = document.getElementById("reset");
 const button4 = document.getElementById("isolateBracket");
 const colorMenu = document.getElementById("colorMenu");
 const parameters = document.querySelector(".parameters");
-
+const buttons = [
+  "Change Background Color to Red",
+  "Change Background Color to Grey",
+  "Isolate Bracket",
+  "Reset Window",
+];
 
 const newButton = (textToAdd) => {
   const button = document.createElement("button");
@@ -14,11 +19,17 @@ const newButton = (textToAdd) => {
   const text = document.createTextNode(textToAdd);
   button.appendChild(text);
   parameters.appendChild(button);
-  colorMenu.insertAdjacentElement("beforebegin", button)
+  colorMenu.insertAdjacentElement("beforebegin", button);
   return button;
 };
 
-newButton("I am a button");
+const createButtons = buttons.map((button, idx) => {
+  return newButton(button);
+});
+
+const button8 = newButton("Isolate carbon layup");
+
+// createButtons();
 
 // const newContainer = () => {
 //   const container = document.createElement("div");
@@ -73,7 +84,13 @@ export function initViewer(container) {
           viewer.isolate(ids);
         });
       };
-      // isolateBracket();
+
+      const isolateCarbonLayup = () => {
+        viewer.search("Pivot, Swingarm", (ids) => {
+          viewer.isolate(ids);
+        });
+      };
+      button8.addEventListener("click", isolateCarbonLayup);
       button4.addEventListener("click", isolateBracket);
 
       const colorsArray = [
