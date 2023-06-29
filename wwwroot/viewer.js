@@ -31,7 +31,7 @@ export function initViewer(container) {
       resolve(viewer);
       const buttons = [
         {
-          buttonName: "Change Background Color to Red buttons array",
+          buttonName: "Change Background Color to Red",
           buttonFunction: () => {
             viewer.setBackgroundColor(0xff0000);
           },
