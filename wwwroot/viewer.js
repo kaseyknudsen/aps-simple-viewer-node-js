@@ -104,6 +104,21 @@ export function initViewer(container) {
       dropdown.onchange = () => {
         viewer.setBackgroundColor(dropdown.value);
       };
+
+      const selectOptions = [
+        {option: "Turn Background Red",},
+      ]
+
+      const createDropdown = () => {
+
+      }
+      const newDropdown = document.createElement("select");
+      newDropdown.className = "dropdown";
+      const option = document.createElement("option");
+      option.value = "turn background red";
+      option.text = "turn background red";
+      newDropdown.appendChild(option);
+      parameters.appendChild(newDropdown);
     });
   });
 }
