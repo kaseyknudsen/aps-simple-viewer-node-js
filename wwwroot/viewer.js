@@ -115,16 +115,44 @@ export function initViewer(container) {
         viewer.setBackgroundColor(dropdown.value);
       };
 
-      // const selectOptions = [{ option: "Turn Background Red" }];
+      const selectOptions = [
+        {
+          text: "Red",
+          changeColorFunction: () => {
+            viewer.search("Carbon Layup", (ids) => {
+              viewer.setThemingColor(10, new THREE.Vector4(0xff0000));
+            });
+          },
+        },
+        {
+          text: "Grey",
+          changeColorFunction: () => {
+            viewer.search("Carbon Layup", (ids) => {
+              viewer.setThemingColor(10, new THREE.Vector4(0.5, 0.5, 0.5, 1));
+            });
+          },
+        },
+        {
+          text: "Not sure yet",
+          changeColorFunction: () => {
+            viewer.search("Carbon Layup", (ids) => {
+              viewer.setThemingColor(10, new THREE.Vector4(0.2, 0.2, 0.2, 1));
+            });
+          },
+        },
+      ];
 
-      // const createDropdown = () => {};
-      // const newDropdown = document.createElement("select");
-      // newDropdown.className = "dropdown";
-      // const option = document.createElement("option");
-      // option.value = "turn background red";
-      // option.text = "turn background red";
-      // newDropdown.appendChild(option);
-      // parameters.appendChild(newDropdown);
+      const newDropdown = document.createElement("select");
+      newDropdown.className = "dropdown";
+
+      parameters.appendChild(newDropdown);
+      const dropdownMenuOptions = selectOptions.map((option, idx) => {
+        const newOption = document.createElement("option");
+        newOption.value = idx;
+        newOption.innerHTML = option.text;
+        newDropdown.appendChild(newOption);
+        newDropdown.onchange = option.changeColorFunction;
+      });
     });
   });
 }
