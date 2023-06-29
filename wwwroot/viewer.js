@@ -1,44 +1,8 @@
 /// import * as Autodesk from "@types/forge-viewer";
 
-const button1 = document.getElementById("bkrndColorRed");
-const button2 = document.getElementById("bkrndColorGrey");
-const button3 = document.getElementById("reset");
-const button4 = document.getElementById("isolateBracket");
 const colorMenu = document.getElementById("colorMenu");
 const parameters = document.querySelector(".parameters");
-const buttons = [
-  "Change Background Color to Red",
-  "Change Background Color to Grey",
-  "Isolate Bracket",
-  "Reset Window",
-];
 
-const newButton = (textToAdd) => {
-  const button = document.createElement("button");
-  button.className = "item";
-  const text = document.createTextNode(textToAdd);
-  button.appendChild(text);
-  parameters.appendChild(button);
-  colorMenu.insertAdjacentElement("beforebegin", button);
-  return button;
-};
-
-const createButtons = buttons.map((button, idx) => {
-  return newButton(button);
-});
-
-const button8 = newButton("Isolate carbon layup");
-
-// createButtons();
-
-// const newContainer = () => {
-//   const container = document.createElement("div");
-//   container.className = "newContainer";
-//   document.body.appendChild(container);
-//   const button = newButton("I am a button");
-//   container.appendChild(button);
-// };
-// newContainer();
 async function getAccessToken(callback) {
   try {
     const resp = await fetch("/api/auth/token");
@@ -65,33 +29,54 @@ export function initViewer(container) {
       viewer.start();
       viewer.setTheme("light-theme");
       resolve(viewer);
-      const setBackgroundColorRed = () => {
-        viewer.setBackgroundColor(0xff0000);
-      };
-      button1.addEventListener("click", setBackgroundColorRed);
+      const buttons = [
+        {
+          buttonName: "Change Background Color to Red buttons array",
+          buttonFunction: () => {
+            viewer.setBackgroundColor(0xff0000);
+          },
+        },
 
-      const setBackgroundColorGrey = () => {
-        viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
-      };
-      button2.addEventListener("click", setBackgroundColorGrey);
-      const resetWindow = () => {
-        location.reload();
-      };
-      button3.addEventListener("click", resetWindow);
+        {
+          buttonName: "Change Background Color to Grey",
+          buttonFunction: () => {
+            viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
+          },
+        },
 
-      const isolateBracket = () => {
-        viewer.search("Bracket, Bottom", (ids) => {
-          viewer.isolate(ids);
-        });
-      };
-
-      const isolateCarbonLayup = () => {
-        viewer.search("Pivot, Swingarm", (ids) => {
-          viewer.isolate(ids);
-        });
-      };
-      button8.addEventListener("click", isolateCarbonLayup);
-      button4.addEventListener("click", isolateBracket);
+        {
+          buttonName: "Isolate Bracket",
+          buttonFunction: () => {
+            viewer.search("Bracket, Bottom", (ids) => {
+              viewer.isolate(ids);
+            });
+          },
+        },
+        {
+          buttonName: "Reset Window",
+          buttonFunction: () => {
+            location.reload();
+          },
+        },
+        {
+          buttonName: "Isolate Pivot Swingarm",
+          buttonFunction: () => {
+            viewer.search("Pivot, Swingarm", (ids) => {
+              viewer.select([8]);
+            });
+          },
+        },
+      ];
+      const createButtons = buttons.map((button, idx) => {
+        const createButton = document.createElement("button");
+        createButton.className = "item";
+        const text = document.createTextNode(button.buttonName);
+        createButton.appendChild(text);
+        parameters.appendChild(createButton);
+        colorMenu.insertAdjacentElement("beforebegin", createButton);
+        createButton.addEventListener("click", button.buttonFunction);
+        return createButton;
+      });
 
       const colorsArray = [
         {
@@ -104,7 +89,7 @@ export function initViewer(container) {
         },
         {
           color: "grey",
-          colorCode: (0, 0, 0, 210, 210, 210),
+          colorCode: "0, 0, 0, 210, 210, 210",
         },
         {
           color: "blue",
