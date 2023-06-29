@@ -1,5 +1,5 @@
 /// import * as Autodesk from "@types/forge-viewer";
-
+// import * as THREE from 'three';
 const colorMenu = document.getElementById("colorMenu");
 const parameters = document.querySelector(".parameters");
 
@@ -66,6 +66,16 @@ export function initViewer(container) {
             });
           },
         },
+        {
+          buttonName: "Change Color of Carbon Layup to Red",
+          buttonFunction: () => {
+            viewer.search("Carbon Layup", (ids) => {
+              //viewer.isolate([10]);
+              //10 is Carbon Layup ID
+              viewer.setThemingColor(10, new THREE.Vector4(0xff0000));
+            });
+          },
+        },
       ];
       const createButtons = buttons.map((button, idx) => {
         const createButton = document.createElement("button");
@@ -105,20 +115,16 @@ export function initViewer(container) {
         viewer.setBackgroundColor(dropdown.value);
       };
 
-      const selectOptions = [
-        {option: "Turn Background Red",},
-      ]
+      // const selectOptions = [{ option: "Turn Background Red" }];
 
-      const createDropdown = () => {
-
-      }
-      const newDropdown = document.createElement("select");
-      newDropdown.className = "dropdown";
-      const option = document.createElement("option");
-      option.value = "turn background red";
-      option.text = "turn background red";
-      newDropdown.appendChild(option);
-      parameters.appendChild(newDropdown);
+      // const createDropdown = () => {};
+      // const newDropdown = document.createElement("select");
+      // newDropdown.className = "dropdown";
+      // const option = document.createElement("option");
+      // option.value = "turn background red";
+      // option.text = "turn background red";
+      // newDropdown.appendChild(option);
+      // parameters.appendChild(newDropdown);
     });
   });
 }
