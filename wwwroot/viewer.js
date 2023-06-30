@@ -79,6 +79,33 @@ export function initViewer(container) {
             viewer.setThemingColor(10, grey);
           },
         },
+        {
+          buttonName: "Isolate Seat Tube",
+          buttonFunction: () => {
+            viewer.search("Seat Tube", (ids) => {
+              viewer.isolate(ids);
+              console.log(ids); //[9]
+            });
+          },
+        },
+        {
+          buttonName: "Isolate Swingarm",
+          buttonFunction: () => {
+            viewer.search("Swingarm - Weldment", (ids) => {
+              viewer.isolate(ids);
+              console.log(ids); //11
+            });
+          },
+        },
+        {
+          buttonName: "Isolate Manitou Metal",
+          buttonFunction: () => {
+            viewer.search("Manitou Metal", (ids) => {
+              viewer.isolate(ids);
+              console.log(ids);
+            });
+          },
+        },
       ];
       const createButtons = buttons.map((button, idx) => {
         const createButton = document.createElement("button");
@@ -118,30 +145,37 @@ export function initViewer(container) {
         viewer.setBackgroundColor(dropdown.value);
       };
 
+      //create a new dropdown menu
       const selectOptions = [
         {
-          text: "Red",
+          text: " ",
+          color: null,
           changeColorFunction: () => {
-            viewer.setThemingColor(10, new THREE.Vector4(0xff0000));
+            null;
           },
         },
         {
           text: "Grey",
+          color: new THREE.Vector4(0.5, 0.5, 0.5, 1),
           changeColorFunction: () => {
             viewer.setThemingColor(10, new THREE.Vector4(0.5, 0.5, 0.5, 1));
           },
         },
         {
-          text: "Not sure yet",
+          text: "Dark Red",
+          color: new THREE.Vector4(1, 0, 0, 0.3),
           changeColorFunction: () => {
-            viewer.setThemingColor(10, new THREE.Vector4(0.2, 0.2, 0.2, 1));
+            viewer.setThemingColor(10, new THREE.Vector4(1, 0, 0, 0.3));
           },
         },
       ];
 
       const newDropdown = document.createElement("select");
       newDropdown.className = "dropdown";
-
+      const label = document.createElement("label");
+      label.className = "label";
+      label.textContent = "Choose a Color";
+      parameters.appendChild(label);
       parameters.appendChild(newDropdown);
       const dropdownMenuOptions = selectOptions.map((option, idx) => {
         const newOption = document.createElement("option");
@@ -150,6 +184,8 @@ export function initViewer(container) {
         newDropdown.appendChild(newOption);
         newDropdown.onchange = option.changeColorFunction;
       });
+
+      // console.log(viewer.getProperties[8]);
     });
   });
 }
