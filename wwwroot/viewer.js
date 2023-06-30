@@ -61,19 +61,22 @@ export function initViewer(container) {
         {
           buttonName: "Isolate Pivot Swingarm",
           buttonFunction: () => {
-            viewer.search("Pivot, Swingarm", (ids) => {
-              viewer.select([8]);
-            });
+            viewer.select([8]);
           },
         },
         {
           buttonName: "Change Color of Carbon Layup to Red",
           buttonFunction: () => {
             viewer.search("Carbon Layup", (ids) => {
-              //viewer.isolate([10]);
-              //10 is Carbon Layup ID
               viewer.setThemingColor(10, new THREE.Vector4(0xff0000));
             });
+          },
+        },
+        {
+          buttonName: "Change Color of Carbon Layup to Grey",
+          buttonFunction: () => {
+            const grey = new THREE.Vector4(0.5, 0.5, 0.5);
+            viewer.setThemingColor(10, grey);
           },
         },
       ];
@@ -119,25 +122,19 @@ export function initViewer(container) {
         {
           text: "Red",
           changeColorFunction: () => {
-            viewer.search("Carbon Layup", (ids) => {
-              viewer.setThemingColor(10, new THREE.Vector4(0xff0000));
-            });
+            viewer.setThemingColor(10, new THREE.Vector4(0xff0000));
           },
         },
         {
           text: "Grey",
           changeColorFunction: () => {
-            viewer.search("Carbon Layup", (ids) => {
-              viewer.setThemingColor(10, new THREE.Vector4(0.5, 0.5, 0.5, 1));
-            });
+            viewer.setThemingColor(10, new THREE.Vector4(0.5, 0.5, 0.5, 1));
           },
         },
         {
           text: "Not sure yet",
           changeColorFunction: () => {
-            viewer.search("Carbon Layup", (ids) => {
-              viewer.setThemingColor(10, new THREE.Vector4(0.2, 0.2, 0.2, 1));
-            });
+            viewer.setThemingColor(10, new THREE.Vector4(0.2, 0.2, 0.2, 1));
           },
         },
       ];
