@@ -29,6 +29,7 @@ export function initViewer(container) {
       viewer.start();
       viewer.setTheme("light-theme");
       resolve(viewer);
+      //bike frame buttons
       const buttons = [
         {
           buttonName: "Change Background Color to Red",
@@ -43,40 +44,80 @@ export function initViewer(container) {
             viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
           },
         },
+        {
+          buttonName: "Change Middle Part to Red",
+          buttonFunction: () => {
+            // const body = viewer.select([1]);
+            viewer.setThemingColor(4, new THREE.Vector4(0xff0000));
+          },
+        },
 
-        {
-          buttonName: "Isolate Bracket",
-          buttonFunction: () => {
-            viewer.search("Bracket, Bottom", (ids) => {
-              viewer.isolate(ids);
-            });
-          },
-        },
-        {
-          buttonName: "Reset Window",
-          buttonFunction: () => {
-            location.reload();
-          },
-        },
-        {
-          buttonName: "Isolate Pivot Swingarm",
-          buttonFunction: () => {
-            viewer.search("Pivot, Swingarm", (ids) => {
-              viewer.select([8]);
-            });
-          },
-        },
-        {
-          buttonName: "Change Color of Carbon Layup to Red",
-          buttonFunction: () => {
-            viewer.search("Carbon Layup", (ids) => {
-              //viewer.isolate([10]);
-              //10 is Carbon Layup ID
-              viewer.setThemingColor(10, new THREE.Vector4(0xff0000));
-            });
-          },
-        },
+        // {
+        //   buttonName: "Isolate Bracket",
+        //   buttonFunction: () => {
+        //     viewer.search("Bracket, Bottom", (ids) => {
+        //       viewer.isolate(ids);
+        //     });
+        //   },
+        // },
+        // {
+        //   buttonName: "Reset Window",
+        //   buttonFunction: () => {
+        //     location.reload();
+        //   },
+        // },
+        // {
+        //   buttonName: "Isolate Pivot Swingarm",
+        //   buttonFunction: () => {
+        //     viewer.select([8]);
+        //   },
+        // },
+        // {
+        //   buttonName: "Change Color of Carbon Layup to Red",
+        //   buttonFunction: () => {
+        //     viewer.search("Carbon Layup", (ids) => {
+        //       viewer.setThemingColor(10, new THREE.Vector4(0xff0000));
+        //     });
+        //   },
+        // },
+        // {
+        //   buttonName: "Change Color of Carbon Layup to Grey",
+        //   buttonFunction: () => {
+        //     const grey = new THREE.Vector4(0.5, 0.5, 0.5);
+        //     viewer.setThemingColor(10, grey);
+        //   },
+        // },
+        // {
+        //   buttonName: "Isolate Seat Tube",
+        //   buttonFunction: () => {
+        //     viewer.search("Seat Tube", (ids) => {
+        //       viewer.isolate(ids);
+        //       console.log(ids); //[9]
+        //     });
+        //   },
+        // },
+        // {
+        //   buttonName: "Isolate Swingarm",
+        //   buttonFunction: () => {
+        //     viewer.search("Swingarm - Weldment", (ids) => {
+        //       viewer.isolate(ids);
+        //       console.log(ids); //11
+        //     });
+        //   },
+        // },
+        // {
+        //   buttonName: "Isolate Manitou Metal",
+        //   buttonFunction: () => {
+        //     viewer.search("Manitou Metal", (ids) => {
+        //       viewer.isolate(ids);
+        //       console.log(ids);
+        //     });
+        //   },
+        // },
       ];
+
+      //claw wrench buttons
+
       const createButtons = buttons.map((button, idx) => {
         const createButton = document.createElement("button");
         createButton.className = "item";
@@ -115,43 +156,54 @@ export function initViewer(container) {
         viewer.setBackgroundColor(dropdown.value);
       };
 
+      //create a new dropdown menu
+      //RGBA color codes = red, green, blue, opacity
       const selectOptions = [
         {
-          text: "Red",
-          changeColorFunction: () => {
-            viewer.search("Carbon Layup", (ids) => {
-              viewer.setThemingColor(10, new THREE.Vector4(0xff0000));
-            });
-          },
+          text: " ",
+          color: null,
         },
         {
           text: "Grey",
-          changeColorFunction: () => {
-            viewer.search("Carbon Layup", (ids) => {
-              viewer.setThemingColor(10, new THREE.Vector4(0.5, 0.5, 0.5, 1));
-            });
-          },
+          color: new THREE.Vector4(0.5, 0.5, 0.5, 1),
         },
         {
-          text: "Not sure yet",
-          changeColorFunction: () => {
-            viewer.search("Carbon Layup", (ids) => {
-              viewer.setThemingColor(10, new THREE.Vector4(0.2, 0.2, 0.2, 1));
-            });
-          },
+          text: "Dark Red",
+          color: new THREE.Vector4(1, 0, 0, 0.3),
+        },
+        {
+          text: "Silver",
+          color: new THREE.Vector4(1, 1, 1, 1),
+        },
+        {
+          text: "Yellow",
+          color: new THREE.Vector4(128, 128, 0, 1),
         },
       ];
 
+      //dropdown menu to change color of moleteado
       const newDropdown = document.createElement("select");
       newDropdown.className = "dropdown";
-
+      const label = document.createElement("label");
+      label.className = "label";
+      label.textContent = "Change Color of Moleteado";
+      parameters.appendChild(label);
       parameters.appendChild(newDropdown);
-      const dropdownMenuOptions = selectOptions.map((option, idx) => {
+
+      selectOptions.map((option, idx) => {
         const newOption = document.createElement("option");
-        newOption.value = idx;
         newOption.innerHTML = option.text;
         newDropdown.appendChild(newOption);
-        newDropdown.onchange = option.changeColorFunction;
+      });
+
+      newDropdown.addEventListener("change", () => {
+        const selectedColor = newDropdown.value;
+        const colorObject = selectOptions.find((color) => {
+          return selectedColor === color.text;
+        });
+        if (colorObject) {
+          viewer.setThemingColor(10, colorObject.color);
+        }
       });
     });
   });

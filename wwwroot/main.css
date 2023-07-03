@@ -94,5 +94,13 @@ body {
   text-transform: uppercase;
 }
 .dropdown {
-  margin-top: 20px;
+  margin-top: 2px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2px;
+  font-family: "Playfair Display", serif;
+}
+.label {
+  font-family: "Playfair Display", serif;
+  text-transform: uppercase;
 }
