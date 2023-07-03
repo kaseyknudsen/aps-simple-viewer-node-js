@@ -52,6 +52,7 @@ export function initViewer(container) {
           },
         },
 
+<<<<<<< HEAD
         // {
         //   buttonName: "Isolate Bracket",
         //   buttonFunction: () => {
@@ -114,6 +115,70 @@ export function initViewer(container) {
         //     });
         //   },
         // },
+=======
+        {
+          buttonName: "Isolate Bracket",
+          buttonFunction: () => {
+            viewer.search("Bracket, Bottom", (ids) => {
+              viewer.isolate(ids);
+            });
+          },
+        },
+        {
+          buttonName: "Reset Window",
+          buttonFunction: () => {
+            location.reload();
+          },
+        },
+        {
+          buttonName: "Isolate Pivot Swingarm",
+          buttonFunction: () => {
+            viewer.select([8]);
+          },
+        },
+        {
+          buttonName: "Change Color of Carbon Layup to Red",
+          buttonFunction: () => {
+            viewer.search("Carbon Layup", (ids) => {
+              viewer.setThemingColor(10, new THREE.Vector4(0xff0000));
+            });
+          },
+        },
+        {
+          buttonName: "Change Color of Carbon Layup to Grey",
+          buttonFunction: () => {
+            const grey = new THREE.Vector4(0.5, 0.5, 0.5);
+            viewer.setThemingColor(10, grey);
+          },
+        },
+        {
+          buttonName: "Isolate Seat Tube",
+          buttonFunction: () => {
+            viewer.search("Seat Tube", (ids) => {
+              viewer.isolate(ids);
+              console.log(ids); //[9]
+            });
+          },
+        },
+        {
+          buttonName: "Isolate Swingarm",
+          buttonFunction: () => {
+            viewer.search("Swingarm - Weldment", (ids) => {
+              viewer.isolate(ids);
+              console.log(ids); //11
+            });
+          },
+        },
+        {
+          buttonName: "Isolate Manitou Metal",
+          buttonFunction: () => {
+            viewer.search("Manitou Metal", (ids) => {
+              viewer.isolate(ids);
+              console.log(ids);
+            });
+          },
+        },
+>>>>>>> 373aa0340c55aeb20d083fdcaed2c3338bf79b13
       ];
 
       //claw wrench buttons
@@ -157,19 +222,35 @@ export function initViewer(container) {
       };
 
       //create a new dropdown menu
+<<<<<<< HEAD
       //RGBA color codes = red, green, blue, opacity
+=======
+>>>>>>> 373aa0340c55aeb20d083fdcaed2c3338bf79b13
       const selectOptions = [
         {
           text: " ",
           color: null,
+<<<<<<< HEAD
+=======
+          changeColorFunction: () => {
+            null;
+          },
+>>>>>>> 373aa0340c55aeb20d083fdcaed2c3338bf79b13
         },
         {
           text: "Grey",
           color: new THREE.Vector4(0.5, 0.5, 0.5, 1),
+<<<<<<< HEAD
+=======
+          changeColorFunction: () => {
+            viewer.setThemingColor(10, new THREE.Vector4(0.5, 0.5, 0.5, 1));
+          },
+>>>>>>> 373aa0340c55aeb20d083fdcaed2c3338bf79b13
         },
         {
           text: "Dark Red",
           color: new THREE.Vector4(1, 0, 0, 0.3),
+<<<<<<< HEAD
         },
         {
           text: "Silver",
@@ -178,6 +259,11 @@ export function initViewer(container) {
         {
           text: "Yellow",
           color: new THREE.Vector4(128, 128, 0, 1),
+=======
+          changeColorFunction: () => {
+            viewer.setThemingColor(10, new THREE.Vector4(1, 0, 0, 0.3));
+          },
+>>>>>>> 373aa0340c55aeb20d083fdcaed2c3338bf79b13
         },
       ];
 
@@ -186,7 +272,11 @@ export function initViewer(container) {
       newDropdown.className = "dropdown";
       const label = document.createElement("label");
       label.className = "label";
+<<<<<<< HEAD
       label.textContent = "Change Color of Moleteado";
+=======
+      label.textContent = "Choose a Color";
+>>>>>>> 373aa0340c55aeb20d083fdcaed2c3338bf79b13
       parameters.appendChild(label);
       parameters.appendChild(newDropdown);
 
@@ -205,6 +295,8 @@ export function initViewer(container) {
           viewer.setThemingColor(10, colorObject.color);
         }
       });
+
+      // console.log(viewer.getProperties[8]);
     });
   });
 }
