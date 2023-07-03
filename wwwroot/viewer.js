@@ -60,12 +60,12 @@ export function initViewer(container) {
         //     });
         //   },
         // },
-        // {
-        //   buttonName: "Reset Window",
-        //   buttonFunction: () => {
-        //     location.reload();
-        //   },
-        // },
+        {
+          buttonName: "Reset Window",
+          buttonFunction: () => {
+            location.reload();
+          },
+        },
         // {
         //   buttonName: "Isolate Pivot Swingarm",
         //   buttonFunction: () => {
