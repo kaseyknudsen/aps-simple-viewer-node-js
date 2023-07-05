@@ -131,6 +131,13 @@ export function initViewer(container) {
             console.log(props);
           },
         },
+        {
+          buttonName: "Get Proxy",
+          buttonFunction: () => {
+            const getProxy = viewer.impl.getRenderProxy(viewer.model, 1);
+            console.log(getProxy);
+          },
+        },
 
         // {
         //   buttonName: "Isolate Bracket",
@@ -207,6 +214,26 @@ export function initViewer(container) {
         colorMenu.insertAdjacentElement("beforebegin", createButton);
         createButton.addEventListener("click", button.buttonFunction);
         return createButton;
+      });
+
+      //this is creating a button that will toggle between on and off
+      const createToggleButton = document.createElement("button");
+      createToggleButton.className = "item";
+      const text = document.createTextNode("Change Background Color to Red");
+      createToggleButton.appendChild(text);
+      parameters.appendChild(createToggleButton);
+      colorMenu.insertAdjacentElement("beforebegin", createToggleButton);
+      let isBackgroundRed = false;
+      createToggleButton.addEventListener("click", () => {
+        if (!isBackgroundRed) {
+          viewer.setBackgroundColor(0xff0000);
+          createToggleButton.textContent = "Change back to grey";
+          isBackgroundRed = true;
+        } else {
+          viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
+          createToggleButton.textContent = "Change Background to Red";
+          isBackgroundRed = false;
+        }
       });
 
       const colorsArray = [
