@@ -105,7 +105,7 @@ export function initViewer(container) {
           buttonName: "Get Instance Tree",
           buttonFunction: () => {
             const tree = viewer.model.getInstanceTree();
-            console.log(`Instance Tree: ${tree}`);
+            console.log(tree);
           },
         },
         {
