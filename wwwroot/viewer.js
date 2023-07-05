@@ -84,6 +84,18 @@ export function initViewer(container) {
           },
         },
         {
+          buttonName: "Turn Ground Shadow On",
+          buttonFunction: () => {
+            viewer.setGroundShadow(true);
+          },
+        },
+        {
+          buttonName: "Set Ground Shadow Color to Red",
+          buttonFunction: () => {
+            viewer.setGroundShadowColor(new THREE.Color(0xff0000));
+          },
+        },
+        {
           buttonName: "Turn Ground Reflection On",
           buttonFunction: () => {
             viewer.setGroundReflection(true);
