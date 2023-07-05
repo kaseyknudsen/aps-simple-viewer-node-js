@@ -29,21 +29,27 @@ export function initViewer(container) {
       viewer.start();
       viewer.setTheme("light-theme");
       resolve(viewer);
+      //this is creating a button that will toggle background Color between red & grey
+      const createToggleButton = document.createElement("button");
+      createToggleButton.className = "item";
+      const text = document.createTextNode("Change Background Color to Red");
+      createToggleButton.appendChild(text);
+      parameters.appendChild(createToggleButton);
+      colorMenu.insertAdjacentElement("beforebegin", createToggleButton);
+      let isBackgroundRed = false;
+      createToggleButton.addEventListener("click", () => {
+        if (!isBackgroundRed) {
+          viewer.setBackgroundColor(0xff0000);
+          createToggleButton.textContent = "Change Background Color to Grey";
+          isBackgroundRed = true;
+        } else {
+          viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
+          createToggleButton.textContent = "Change Background Color to Red";
+          isBackgroundRed = false;
+        }
+      });
       //bike frame buttons
       const buttons = [
-        {
-          buttonName: "Change Background Color to Red",
-          buttonFunction: () => {
-            viewer.setBackgroundColor(0xff0000);
-          },
-        },
-
-        {
-          buttonName: "Change Background Color to Grey",
-          buttonFunction: () => {
-            viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
-          },
-        },
         {
           buttonName: "Select Body",
           buttonFunction: () => {
@@ -214,26 +220,6 @@ export function initViewer(container) {
         colorMenu.insertAdjacentElement("beforebegin", createButton);
         createButton.addEventListener("click", button.buttonFunction);
         return createButton;
-      });
-
-      //this is creating a button that will toggle between on and off
-      const createToggleButton = document.createElement("button");
-      createToggleButton.className = "item";
-      const text = document.createTextNode("Change Background Color to Red");
-      createToggleButton.appendChild(text);
-      parameters.appendChild(createToggleButton);
-      colorMenu.insertAdjacentElement("beforebegin", createToggleButton);
-      let isBackgroundRed = false;
-      createToggleButton.addEventListener("click", () => {
-        if (!isBackgroundRed) {
-          viewer.setBackgroundColor(0xff0000);
-          createToggleButton.textContent = "Change back to grey";
-          isBackgroundRed = true;
-        } else {
-          viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
-          createToggleButton.textContent = "Change Background to Red";
-          isBackgroundRed = false;
-        }
       });
 
       const colorsArray = [
