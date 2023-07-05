@@ -48,13 +48,45 @@ export function initViewer(container) {
           buttonName: "Select Body",
           buttonFunction: () => {
             viewer.select([1]);
+            console.log(viewer.getSelectionCount([1]));
+            const body = viewer.getSelection([10]);
+          },
+        },
+        {
+          buttonName: "Hide Body After Selecting",
+          buttonFunction: () => {
+            const body = viewer.getSelection([10]);
+            viewer.hide(body);
+          },
+        },
+        {
+          buttonName: "Show All Hidden Nodes",
+          buttonFunction: () => {
+            viewer.showAll();
+          },
+        },
+        {
+          buttonName: "Hide All Nodes",
+          buttonFunction: () => {
+            viewer.hideAll();
           },
         },
         {
           buttonName: "Change Middle Part to Red",
           buttonFunction: () => {
-            // const body = viewer.select([1]);
             viewer.setThemingColor(4, new THREE.Vector4(0xff0000));
+          },
+        },
+        {
+          buttonName: "Turn Ground Shadow Off",
+          buttonFunction: () => {
+            viewer.setGroundShadow(false);
+          },
+        },
+        {
+          buttonName: "Turn Ground Reflection On",
+          buttonFunction: () => {
+            viewer.setGroundReflection(true);
           },
         },
 
