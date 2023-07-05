@@ -45,6 +45,12 @@ export function initViewer(container) {
           },
         },
         {
+          buttonName: "Select Body",
+          buttonFunction: () => {
+            viewer.select([1]);
+          },
+        },
+        {
           buttonName: "Change Middle Part to Red",
           buttonFunction: () => {
             // const body = viewer.select([1]);
@@ -207,6 +213,7 @@ export function initViewer(container) {
       });
 
       // console.log(viewer.getProperties[8]);
+      viewer.select([8]);
     });
   });
 }
