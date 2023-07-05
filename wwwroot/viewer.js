@@ -124,6 +124,13 @@ export function initViewer(container) {
             console.log(`World Bounds:`, JSON.stringify(bbox));
           },
         },
+        {
+          buttonName: "Get Properties",
+          buttonFunction: () => {
+            const props = viewer.model.getProperties([1]);
+            console.log(props);
+          },
+        },
 
         // {
         //   buttonName: "Isolate Bracket",
