@@ -101,6 +101,29 @@ export function initViewer(container) {
             viewer.setGroundReflection(true);
           },
         },
+        {
+          buttonName: "Get Instance Tree",
+          buttonFunction: () => {
+            const tree = viewer.model.getInstanceTree();
+            console.log(`Instance Tree: ${tree}`);
+          },
+        },
+        {
+          buttonName: "Get Fragment List",
+          buttonFunction: () => {
+            const frags = viewer.model.getFragmentList();
+            console.log(frags);
+          },
+        },
+        {
+          buttonName: "Get Frag's World Bounds",
+          buttonFunction: () => {
+            let bbox = new THREE.Box3();
+            const frags = viewer.model.getFragmentList();
+            frags.getWorldBounds(1, bbox);
+            console.log(`World Bounds:`, JSON.stringify(bbox));
+          },
+        },
 
         // {
         //   buttonName: "Isolate Bracket",
@@ -255,9 +278,6 @@ export function initViewer(container) {
           viewer.setThemingColor(10, colorObject.color);
         }
       });
-
-      // console.log(viewer.getProperties[8]);
-      viewer.select([8]);
     });
   });
 }
