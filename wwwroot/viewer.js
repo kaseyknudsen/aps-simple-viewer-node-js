@@ -29,54 +29,71 @@ export function initViewer(container) {
       viewer.start();
       viewer.setTheme("light-theme");
       resolve(viewer);
-      //this is creating a button that will toggle background Color between red & grey
-      const createToggleButton = document.createElement("button");
-      createToggleButton.className = "item";
-      const text = document.createTextNode("Change Background Color to Red");
-      createToggleButton.appendChild(text);
-      parameters.appendChild(createToggleButton);
-      colorMenu.insertAdjacentElement("beforebegin", createToggleButton);
+
+      //create button function
+      const createNewButton = (text) => {
+        const button = document.createElement("button");
+        button.className = "item";
+        const createText = document.createTextNode(text);
+        button.appendChild(createText);
+        parameters.appendChild(button);
+        colorMenu.insertAdjacentElement("beforebegin", button);
+        return button;
+      };
+
+      const createToggleColorButton = createNewButton(
+        "Change Background Color to Red"
+      );
       let isBackgroundRed = false;
-      createToggleButton.addEventListener("click", () => {
+      createToggleColorButton.addEventListener("click", () => {
         if (!isBackgroundRed) {
           viewer.setBackgroundColor(0xff0000);
-          createToggleButton.textContent = "Change Background Color to Grey";
+          createToggleColorButton.textContent =
+            "Change Background Color to Grey";
           isBackgroundRed = true;
         } else {
           viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
-          createToggleButton.textContent = "Change Background Color to Red";
+          createToggleColorButton.textContent =
+            "Change Background Color to Red";
           isBackgroundRed = false;
         }
       });
+
+      let selected = false;
+      const createToggleSelectButton = createNewButton("Select Body");
+      createToggleSelectButton.addEventListener("click", () => {
+        if (!selected) {
+          viewer.select([1]);
+          createToggleSelectButton.textContent = "Clear Selection";
+          selected = true;
+        } else {
+          viewer.clearSelection([1]);
+          createToggleSelectButton.textContent = "Select Body";
+          selected = false;
+        }
+      });
+
       //bike frame buttons
       const buttons = [
-        {
-          buttonName: "Select Body",
-          buttonFunction: () => {
-            viewer.select([1]);
-            console.log(viewer.getSelectionCount([1]));
-            const body = viewer.getSelection([10]);
-          },
-        },
-        {
-          buttonName: "Hide Body After Selecting",
-          buttonFunction: () => {
-            const body = viewer.getSelection([10]);
-            viewer.hide(body);
-          },
-        },
-        {
-          buttonName: "Show All Hidden Nodes",
-          buttonFunction: () => {
-            viewer.showAll();
-          },
-        },
-        {
-          buttonName: "Hide All Nodes",
-          buttonFunction: () => {
-            viewer.hideAll();
-          },
-        },
+        // {
+        //   buttonName: "Hide Body After Selecting",
+        //   buttonFunction: () => {
+        //     const body = viewer.getSelection([10]);
+        //     viewer.hide(body);
+        //   },
+        // },
+        // {
+        //   buttonName: "Show All Hidden Nodes",
+        //   buttonFunction: () => {
+        //     viewer.showAll();
+        //   },
+        // },
+        // {
+        //   buttonName: "Hide All Nodes",
+        //   buttonFunction: () => {
+        //     viewer.hideAll();
+        //   },
+        // },
         {
           buttonName: "Change Middle Part to Red",
           buttonFunction: () => {
@@ -222,32 +239,32 @@ export function initViewer(container) {
         return createButton;
       });
 
-      const colorsArray = [
-        {
-          color: "white",
-          colorCode: "#FFFFFF",
-        },
-        {
-          color: "red",
-          colorCode: "0xff0000",
-        },
-        {
-          color: "grey",
-          colorCode: "0, 0, 0, 210, 210, 210",
-        },
-        {
-          color: "blue",
-          colorCode: "0x0000ff",
-        },
-      ];
-      const dropdown = document.querySelector("select[name='colors']");
-      dropdown.innerHTML = colorsArray.map(
-        (backgroundColor, idx) =>
-          `<option value="${backgroundColor.colorCode}">${backgroundColor.color}</option>`
-      );
-      dropdown.onchange = () => {
-        viewer.setBackgroundColor(dropdown.value);
-      };
+      // const colorsArray = [
+      //   {
+      //     color: "white",
+      //     colorCode: "#FFFFFF",
+      //   },
+      //   {
+      //     color: "red",
+      //     colorCode: "0xff0000",
+      //   },
+      //   {
+      //     color: "grey",
+      //     colorCode: "0, 0, 0, 210, 210, 210",
+      //   },
+      //   {
+      //     color: "blue",
+      //     colorCode: "0x0000ff",
+      //   },
+      // ];
+      // const dropdown = document.querySelector("select[name='colors']");
+      // dropdown.innerHTML = colorsArray.map(
+      //   (backgroundColor, idx) =>
+      //     `<option value="${backgroundColor.colorCode}">${backgroundColor.color}</option>`
+      // );
+      // dropdown.onchange = () => {
+      //   viewer.setBackgroundColor(dropdown.value);
+      // };
 
       //create a new dropdown menu
       //RGBA color codes = red, green, blue, opacity
