@@ -73,157 +73,52 @@ export function initViewer(container) {
         }
       });
 
-      //bike frame buttons
+      //create ground shadow toggle button
+      let shadowOn = false;
+      const createToggleGroundShadow = createNewButton("Turn Ground Shadow On");
+      createToggleGroundShadow.addEventListener("click", () => {
+        if (!shadowOn) {
+          viewer.setGroundShadow(true);
+          createToggleGroundShadow.textContent = "Turn Ground Shadow Off";
+          shadowOn = true;
+        } else {
+          viewer.setGroundShadow(false);
+          createToggleGroundShadow.textContent = "Turn Ground Shadow On";
+          shadowOn = false;
+        }
+      });
+
+      //create ground reflection toggle button
+      let reflectionOn = false;
+      const createToggleReflection = createNewButton(
+        "Turn Ground Reflection On"
+      );
+      createToggleReflection.addEventListener("click", () => {
+        if (!reflectionOn) {
+          viewer.setGroundReflection(true);
+          createToggleReflection.textContent = "Turn Ground Reflection Off";
+          reflectionOn = true;
+        } else {
+          viewer.setGroundReflection(false);
+          createToggleReflection.textContent = "Turn Ground Reflection On";
+          reflectionOn = false;
+        }
+      });
+
       const buttons = [
-        // {
-        //   buttonName: "Hide Body After Selecting",
-        //   buttonFunction: () => {
-        //     const body = viewer.getSelection([10]);
-        //     viewer.hide(body);
-        //   },
-        // },
-        // {
-        //   buttonName: "Show All Hidden Nodes",
-        //   buttonFunction: () => {
-        //     viewer.showAll();
-        //   },
-        // },
-        // {
-        //   buttonName: "Hide All Nodes",
-        //   buttonFunction: () => {
-        //     viewer.hideAll();
-        //   },
-        // },
-        {
-          buttonName: "Change Middle Part to Red",
-          buttonFunction: () => {
-            viewer.setThemingColor(4, new THREE.Vector4(0xff0000));
-          },
-        },
-        {
-          buttonName: "Turn Ground Shadow Off",
-          buttonFunction: () => {
-            viewer.setGroundShadow(false);
-          },
-        },
-        {
-          buttonName: "Turn Ground Shadow On",
-          buttonFunction: () => {
-            viewer.setGroundShadow(true);
-          },
-        },
         {
           buttonName: "Set Ground Shadow Color to Red",
           buttonFunction: () => {
             viewer.setGroundShadowColor(new THREE.Color(0xff0000));
           },
         },
-        {
-          buttonName: "Turn Ground Reflection On",
-          buttonFunction: () => {
-            viewer.setGroundReflection(true);
-          },
-        },
-        {
-          buttonName: "Get Instance Tree",
-          buttonFunction: () => {
-            const tree = viewer.model.getInstanceTree();
-            console.log(tree);
-          },
-        },
-        {
-          buttonName: "Get Fragment List",
-          buttonFunction: () => {
-            const frags = viewer.model.getFragmentList();
-            console.log(frags);
-          },
-        },
-        {
-          buttonName: "Get Frag's World Bounds",
-          buttonFunction: () => {
-            let bbox = new THREE.Box3();
-            const frags = viewer.model.getFragmentList();
-            frags.getWorldBounds(1, bbox);
-            console.log(`World Bounds:`, JSON.stringify(bbox));
-          },
-        },
-        {
-          buttonName: "Get Properties",
-          buttonFunction: () => {
-            const props = viewer.model.getProperties([1]);
-            console.log(props);
-          },
-        },
-        {
-          buttonName: "Get Proxy",
-          buttonFunction: () => {
-            const getProxy = viewer.impl.getRenderProxy(viewer.model, 1);
-            console.log(getProxy);
-          },
-        },
 
-        // {
-        //   buttonName: "Isolate Bracket",
-        //   buttonFunction: () => {
-        //     viewer.search("Bracket, Bottom", (ids) => {
-        //       viewer.isolate(ids);
-        //     });
-        //   },
-        // },
         {
           buttonName: "Reset Window",
           buttonFunction: () => {
             location.reload();
           },
         },
-        // {
-        //   buttonName: "Isolate Pivot Swingarm",
-        //   buttonFunction: () => {
-        //     viewer.select([8]);
-        //   },
-        // },
-        // {
-        //   buttonName: "Change Color of Carbon Layup to Red",
-        //   buttonFunction: () => {
-        //     viewer.search("Carbon Layup", (ids) => {
-        //       viewer.setThemingColor(10, new THREE.Vector4(0xff0000));
-        //     });
-        //   },
-        // },
-        // {
-        //   buttonName: "Change Color of Carbon Layup to Grey",
-        //   buttonFunction: () => {
-        //     const grey = new THREE.Vector4(0.5, 0.5, 0.5);
-        //     viewer.setThemingColor(10, grey);
-        //   },
-        // },
-        // {
-        //   buttonName: "Isolate Seat Tube",
-        //   buttonFunction: () => {
-        //     viewer.search("Seat Tube", (ids) => {
-        //       viewer.isolate(ids);
-        //       console.log(ids); //[9]
-        //     });
-        //   },
-        // },
-        // {
-        //   buttonName: "Isolate Swingarm",
-        //   buttonFunction: () => {
-        //     viewer.search("Swingarm - Weldment", (ids) => {
-        //       viewer.isolate(ids);
-        //       console.log(ids); //11
-        //     });
-        //   },
-        // },
-        // {
-        //   buttonName: "Isolate Manitou Metal",
-        //   buttonFunction: () => {
-        //     viewer.search("Manitou Metal", (ids) => {
-        //       viewer.isolate(ids);
-        //       console.log(ids);
-        //     });
-        //   },
-        // },
       ];
 
       //claw wrench buttons
@@ -239,35 +134,6 @@ export function initViewer(container) {
         return createButton;
       });
 
-      // const colorsArray = [
-      //   {
-      //     color: "white",
-      //     colorCode: "#FFFFFF",
-      //   },
-      //   {
-      //     color: "red",
-      //     colorCode: "0xff0000",
-      //   },
-      //   {
-      //     color: "grey",
-      //     colorCode: "0, 0, 0, 210, 210, 210",
-      //   },
-      //   {
-      //     color: "blue",
-      //     colorCode: "0x0000ff",
-      //   },
-      // ];
-      // const dropdown = document.querySelector("select[name='colors']");
-      // dropdown.innerHTML = colorsArray.map(
-      //   (backgroundColor, idx) =>
-      //     `<option value="${backgroundColor.colorCode}">${backgroundColor.color}</option>`
-      // );
-      // dropdown.onchange = () => {
-      //   viewer.setBackgroundColor(dropdown.value);
-      // };
-
-      //create a new dropdown menu
-      //RGBA color codes = red, green, blue, opacity
       const selectOptions = [
         {
           text: " ",
@@ -291,28 +157,52 @@ export function initViewer(container) {
         },
       ];
 
-      //dropdown menu to change color of moleteado
-      const newDropdown = document.createElement("select");
-      newDropdown.className = "dropdown";
-      const label = document.createElement("label");
-      label.className = "label";
-      label.textContent = "Change Color of Moleteado";
-      parameters.appendChild(label);
-      parameters.appendChild(newDropdown);
-
+      //function to create dropdown
+      const createDropdownMenu = (text) => {
+        const newDropdown = document.createElement("select");
+        newDropdown.className = "dropdown";
+        const label = document.createElement("label");
+        label.className = "label";
+        label.textContent = text;
+        parameters.appendChild(label);
+        parameters.appendChild(newDropdown);
+        return newDropdown;
+      };
+      //change color of moleteado
+      const changeColorOfMoleteado = createDropdownMenu(
+        "Change Color of Moleteado"
+      );
       selectOptions.map((option, idx) => {
         const newOption = document.createElement("option");
         newOption.innerHTML = option.text;
-        newDropdown.appendChild(newOption);
+        changeColorOfMoleteado.appendChild(newOption);
       });
-
-      newDropdown.addEventListener("change", () => {
-        const selectedColor = newDropdown.value;
+      changeColorOfMoleteado.addEventListener("change", () => {
+        const selectedColor = changeColorOfMoleteado.value;
         const colorObject = selectOptions.find((color) => {
           return selectedColor === color.text;
         });
         if (colorObject) {
           viewer.setThemingColor(10, colorObject.color);
+        }
+      });
+
+      //change color of middle part
+      const changeColorOfMiddlePart = createDropdownMenu(
+        "Change Color Of Middle Part"
+      );
+      selectOptions.map((option, idx) => {
+        const newOption = document.createElement("option");
+        newOption.innerHTML = option.text;
+        changeColorOfMiddlePart.appendChild(newOption);
+      });
+      changeColorOfMiddlePart.addEventListener("change", () => {
+        const selectedColor = changeColorOfMiddlePart.value;
+        const colorObject = selectOptions.find(
+          (color) => selectedColor === color.text
+        );
+        if (colorObject) {
+          viewer.setThemingColor(4, colorObject.color);
         }
       });
     });
