@@ -41,102 +41,101 @@ export function initViewer(container) {
         return button;
       };
 
-      const createToggleColorButton = createNewButton(
-        "Change Background Color to Red"
-      );
-      let isBackgroundRed = false;
-      createToggleColorButton.addEventListener("click", () => {
-        if (!isBackgroundRed) {
-          viewer.setBackgroundColor(0xff0000);
-          createToggleColorButton.textContent =
-            "Change Background Color to Grey";
-          isBackgroundRed = true;
-        } else {
-          viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
-          createToggleColorButton.textContent =
-            "Change Background Color to Red";
-          isBackgroundRed = false;
-        }
-      });
-
-      let selected = false;
-      const createToggleSelectButton = createNewButton("Select Body");
-      createToggleSelectButton.addEventListener("click", () => {
-        if (!selected) {
-          viewer.select([1]);
-          createToggleSelectButton.textContent = "Clear Selection";
-          selected = true;
-        } else {
-          viewer.clearSelection([1]);
-          createToggleSelectButton.textContent = "Select Body";
-          selected = false;
-        }
-      });
-
-      //create ground shadow toggle button
-      let shadowOn = false;
-      const createToggleGroundShadow = createNewButton("Turn Ground Shadow On");
-      createToggleGroundShadow.addEventListener("click", () => {
-        if (!shadowOn) {
-          viewer.setGroundShadow(true);
-          createToggleGroundShadow.textContent = "Turn Ground Shadow Off";
-          shadowOn = true;
-        } else {
-          viewer.setGroundShadow(false);
-          createToggleGroundShadow.textContent = "Turn Ground Shadow On";
-          shadowOn = false;
-        }
-      });
-
-      //create ground reflection toggle button
-      let reflectionOn = false;
-      const createToggleReflection = createNewButton(
-        "Turn Ground Reflection On"
-      );
-      createToggleReflection.addEventListener("click", () => {
-        if (!reflectionOn) {
-          viewer.setGroundReflection(true);
-          createToggleReflection.textContent = "Turn Ground Reflection Off";
-          reflectionOn = true;
-        } else {
-          viewer.setGroundReflection(false);
-          createToggleReflection.textContent = "Turn Ground Reflection On";
-          reflectionOn = false;
-        }
-      });
-
-      const buttons = [
+      const UIButtons = [
+        /*
+           [
+            {
+              text: "Change Background Color To rRd",
+              action: () => viewer.setBackgroundcolor(0xf00)
+            },  
+            {
+              text: "Change Background Color To Grey",
+              action: () => viewer.setBackgroundcolor(0x888)
+            },
+           ]
+           when you hit a buttion, fire action and update the
+           tracking index to + 1 modulo the length of the array
+           Note: practice modulo
+          */
         {
-          buttonName: "Set Ground Shadow Color to Red",
-          buttonFunction: () => {
-            viewer.setGroundShadowColor(new THREE.Color(0xff0000));
-          },
+          buttonText: "Change Background Color To Red",
+          //make an array of functions
+          viewerFunction1: () => viewer.setBackgroundColor(0xff0000),
+          viewerFunction2: () =>
+            viewer.setBackgroundColor(0, 0, 0, 210, 210, 210),
+          newButtonText: "Change Background Color To Grey",
         },
-
         {
-          buttonName: "Reset Window",
-          buttonFunction: () => {
-            location.reload();
-          },
+          buttonText: "Select Body",
+          viewerFunction1: () => viewer.select([1]),
+          viewerFunction2: () => viewer.clearSelection([1]),
+          newButtonText: "Clear Selection",
+        },
+        {
+          buttonText: "Turn Ground Shadow On",
+          viewerFunction1: () => viewer.setGroundShadow(true),
+          viewerFunction2: () => viewer.setGroundShadow(false),
+          newButtonText: "Turn Ground Shadow Off",
+        },
+        {
+          buttonText: "Set Ground Shadow To Red",
+          viewerFunction1: () =>
+            viewer.setGroundShadowColor(new THREE.Color(0xff0000)),
+          viewerFunction2: () =>
+            viewer.setGroundShadowColor(
+              new THREE.Color(0, 0, 0, 210, 210, 210)
+            ),
+          newButtonText: "Remove Red Ground Shadow",
+        },
+        {
+          buttonText: "Turn Ground Reflection On",
+          viewerFunction1: () => viewer.setGroundReflection(true),
+          viewerFunction2: () => viewer.setGroundReflection(false),
+          newButtonText: "Turn Ground reflection Off",
+        },
+        {
+          buttonText: "Reset Window",
+          viewerFunction1: () => location.reload(),
         },
       ];
 
-      //claw wrench buttons
+      const createUIButton = (
+        buttonText,
+        viewerFunction,
+        viewerFunction2,
+        newButtonText
+      ) => {
+        let isInInitialState = false;
+        const button = createNewButton(buttonText);
+        button.addEventListener("click", () => {
+          if (!isInInitialState) {
+            viewerFunction();
+            button.textContent = newButtonText;
+            isInInitialState = true;
+          } else {
+            viewerFunction2();
+            button.textContent = buttonText;
+            isInInitialState = false;
+          }
+        });
+      };
 
-      const createButtons = buttons.map((button, idx) => {
-        const createButton = document.createElement("button");
-        createButton.className = "item";
-        const text = document.createTextNode(button.buttonName);
-        createButton.appendChild(text);
-        parameters.appendChild(createButton);
-        colorMenu.insertAdjacentElement("beforebegin", createButton);
-        createButton.addEventListener("click", button.buttonFunction);
-        return createButton;
+      UIButtons.map((button, id) => {
+        const newButton = createUIButton(
+          button.buttonText,
+          button.viewerFunction1,
+          button.viewerFunction2,
+          button.newButtonText
+        );
+        return newButton;
       });
 
-      const selectOptions = [
+      const MOLETEADO_DBID = 10;
+      const MIDDLE_PART_DBID = 4;
+      // dropdown menu Code
+      const selectColorOptions = [
         {
-          text: " ",
+          text: "Select Color...",
           color: null,
         },
         {
@@ -168,43 +167,46 @@ export function initViewer(container) {
         parameters.appendChild(newDropdown);
         return newDropdown;
       };
-      //change color of moleteado
-      const changeColorOfMoleteado = createDropdownMenu(
-        "Change Color of Moleteado"
-      );
-      selectOptions.map((option, idx) => {
-        const newOption = document.createElement("option");
-        newOption.innerHTML = option.text;
-        changeColorOfMoleteado.appendChild(newOption);
-      });
-      changeColorOfMoleteado.addEventListener("change", () => {
-        const selectedColor = changeColorOfMoleteado.value;
-        const colorObject = selectOptions.find((color) => {
-          return selectedColor === color.text;
-        });
-        if (colorObject) {
-          viewer.setThemingColor(10, colorObject.color);
-        }
-      });
 
-      //change color of middle part
-      const changeColorOfMiddlePart = createDropdownMenu(
-        "Change Color Of Middle Part"
+      //function to create options in dropdown menu
+      const addOptionsToMenu = (options, dropdownMenu) => {
+        options.map((option, idx) => {
+          const newOption = document.createElement("option");
+          newOption.innerHTML = option.text;
+          dropdownMenu.appendChild(newOption);
+        });
+      };
+
+      //addEventListener function
+      const addEventListenerToMenu = (dropDownMenu, optionMenu, dbId) => {
+        dropDownMenu.addEventListener("change", () => {
+          const selectedColor = dropDownMenu.value;
+          const colorObject = optionMenu.find((color) => {
+            return selectedColor === color.text;
+          });
+          if (colorObject) {
+            viewer.setThemingColor(dbId, colorObject.color);
+          }
+        });
+      };
+
+      //function to create entire menu
+      const createEntireDropdownMenu = (label, optionsMenu, dbId) => {
+        const dropdownMenu = createDropdownMenu(label);
+        addOptionsToMenu(optionsMenu, dropdownMenu);
+        addEventListenerToMenu(dropdownMenu, optionsMenu, dbId);
+      };
+
+      createEntireDropdownMenu(
+        "Change Color of Moleteado",
+        selectColorOptions,
+        MOLETEADO_DBID
       );
-      selectOptions.map((option, idx) => {
-        const newOption = document.createElement("option");
-        newOption.innerHTML = option.text;
-        changeColorOfMiddlePart.appendChild(newOption);
-      });
-      changeColorOfMiddlePart.addEventListener("change", () => {
-        const selectedColor = changeColorOfMiddlePart.value;
-        const colorObject = selectOptions.find(
-          (color) => selectedColor === color.text
-        );
-        if (colorObject) {
-          viewer.setThemingColor(4, colorObject.color);
-        }
-      });
+      createEntireDropdownMenu(
+        "Change Color of Middle Part",
+        selectColorOptions,
+        MIDDLE_PART_DBID
+      );
     });
   });
 }
